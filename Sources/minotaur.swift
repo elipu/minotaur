@@ -122,8 +122,8 @@ func foundMinotaur (through: Term) -> Goal {
     // This function indicates if the hero has found the Minotaur in the labyrinth
 
     return delayed(fresh{ ro in fresh{ thru in (through === List.cons(ro, thru)) &&
-                                                minotaur(location: ro) ||
-                                                foundMinotaur(through: thru)
+                                                (minotaur(location: ro) ||
+                                                foundMinotaur(through: thru))
                                                }})
 }
 

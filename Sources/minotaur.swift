@@ -95,7 +95,9 @@ func path (from: Term, to: Term, through: Term) -> Goal {
     // and fails if there isn't a path between the two rooms or
     // if the through path does not start at from and end at to
 
-    return  (through === List.cons(from, List.empty) && from === to) ||
+    return  (through === List.empty && from === to) ||  /* corrected the error; before: through === List.cons(from, List.empty)
+                                                           thought that through was the path from the begining to the end.
+                                                           in fact, through was the path between the entrance and the exit */
             // if either we are in the same room "from === to"
             // or we are at the same door "door(from:from, to:to)" thus there is not "through",
             // we stop the search for a path. Otherwise we search for a path
@@ -111,9 +113,11 @@ func battery (through: Term, level: Term) -> Goal {
     // and the path they have chosen to take, and fails if there is not enough battery.
 
     return  delayed (fresh { l in (level === succ(l)) &&
-                                 ((through === List.empty && delayed(fresh {x in level === succ(x)})) ||
-                                  delayed (fresh { ro in fresh { thru in fresh { lvl in
-                                  (through === List.cons(ro, thru)) && (level === succ(lvl)) && battery(through: thru, level : lvl)
+                                  ((through === List.empty && delayed(fresh {x in level === succ(x)})) ||
+                                   delayed (fresh { ro in fresh { thru in fresh { lvl in
+                                           (through === List.cons(ro, thru)) &&
+                                           (level === succ(lvl)) &&
+                                           battery(through: thru, level : lvl)
                                   }}}))
                                 })
 }
@@ -135,7 +139,7 @@ func winning (through: Term, level: Term) -> Goal {
     return fresh{ In in fresh{ Out in entrance(location: In) &&  /* The hero enters the labyrinth */
                                       path(from: In, to: Out, through: through) && /* choses a path */
                                       foundMinotaur(through: through) && /* kills the Minotaur */
-                                      battery(through: through, level: level) && /* still has enough battery to exit*/
+                                      battery(through: through, level: level) && /* still has enough battery to exit */
                                       exit(location: Out) /* and exits the labyrinth */
                                       }}
 }

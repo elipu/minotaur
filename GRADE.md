@@ -2,7 +2,7 @@ Automated Testing:
   * fork: `true`
   * commit: `true`
   * build: `true`
-  * test: `false`
+  * test: `true`
 
 Review:
   * new tests added: `false`
@@ -10,4 +10,4 @@ Review:
 
 One of the tests does **not** pass! Please fix your code!
 
-**Grade: 4**
+**Grade: 5.5**

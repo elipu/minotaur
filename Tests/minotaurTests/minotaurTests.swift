@@ -83,16 +83,120 @@ class minotaurTests: XCTestCase {
     }
 
 
-    static var allTests : [(String, (minotaurTests) -> () throws -> Void)] {
-        return [
-            ("testDoors", testDoors),
-            ("testEntrance", testEntrance),
-            ("testExit", testExit),
-            ("testMinotaur", testMinotaur),
-            ("testPath", testPath),
-            ("testBattery", testBattery),
-            ("testLosing", testLosing),
-            ("testWinning", testWinning),
-        ]
-    }
+/*§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+  §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ Additional Tests §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+  §§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§*/
+
+    // These tests test the other possibilites of paths from an entrance to an exit,
+    // encountering the Minotaur on the way and exiting with enough battery.
+
+    /* ======= Tests for the path from Entrance(1,4) to Exit(1,1) ======= */
+      func testPath1411() {
+          let through = Variable (named: "through")
+          let goal    = path (from: room (1,4), to: room (3,2), through: through)
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 1, "number of paths is incorrect")
+      }
+
+      func testBattery1411() {
+          let through = Variable (named: "through")
+          let goal    = path (from: room (1,4), to: room (3,2), through: through) &&
+                        battery (through: through, level: toNat (9))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 1, "number of paths is incorrect")
+      }
+
+      func testLosing1411() {
+          let through = Variable (named: "through")
+          let goal    = winning (through: through, level: toNat (5))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 0, "number of paths is incorrect")
+      }
+
+      func testWinning1411() {
+          let through = Variable (named: "through")
+          let goal    = winning (through: through, level: toNat (9))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 2, "number of paths is incorrect")
+      }
+    /* =================================================================== */
+
+    /* ======= Tests for the path from Entrance(1,4) to Exit(4,3) ======= */
+
+      func testPath1443() {
+          let through = Variable (named: "through")
+          let goal    = path (from: room (1,4), to: room (3,2), through: through)
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 1, "number of paths is incorrect")
+      }
+
+      func testBattery1443() {
+          let through = Variable (named: "through")
+          let goal    = path (from: room (1,4), to: room (3,2), through: through) &&
+                        battery (through: through, level: toNat (7))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 1, "number of paths is incorrect")
+      }
+
+      func testLosing1443() {
+          let through = Variable (named: "through")
+          let goal    = winning (through: through, level: toNat (5))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 0, "number of paths is incorrect")
+      }
+
+      func testWinning1443() {
+          let through = Variable (named: "through")
+          let goal    = winning (through: through, level: toNat (7))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 1, "number of paths is incorrect")
+      }
+    /* =================================================================== */
+
+    /* ======= Tests for the path from Entrance(4,4) to Exit(1,1) ======= */
+      func testPath4411() {
+          let through = Variable (named: "through")
+          let goal    = path (from: room (4,4), to: room (3,2), through: through)
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 2, "number of paths is incorrect")
+      }
+
+      func testBattery4411() {
+          let through = Variable (named: "through")
+          let goal    = path (from: room (4,4), to: room (3,2), through: through) &&
+                        battery (through: through, level: toNat (10))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 2, "number of paths is incorrect")
+      }
+
+      func testLosing4411() {
+          let through = Variable (named: "through")
+          let goal    = winning (through: through, level: toNat (6))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 0, "number of paths is incorrect")
+      }
+
+      func testWinning4411() {
+          let through = Variable (named: "through")
+          let goal    = winning (through: through, level: toNat (10))
+          XCTAssertEqual(resultsOf (goal: goal, variables: [through]).count, 4, "number of paths is incorrect") // 4 because it counts the Exit(4,3) as well
+      }
+    /* =================================================================== */
+
+//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+
+        static var allTests : [(String, (minotaurTests) -> () throws -> Void)] {
+            return [
+                ("testDoors", testDoors),
+                ("testEntrance", testEntrance),
+                ("testExit", testExit),
+                ("testMinotaur", testMinotaur),
+                ("testPath", testPath),
+                ("testBattery", testBattery),
+                ("testLosing", testLosing),
+                ("testWinning", testWinning),
+                ("testPath1411", testPath1411),
+                ("testBattery1411", testBattery1411),
+                ("testLosing1411", testLosing1411),
+                ("testWinning1411", testWinning1411),
+                ("testPath1443", testPath1443),
+                ("testBattery1443", testBattery1443),
+                ("testLosing1443", testLosing1443),
+                ("testWinning1443", testWinning1443),
+                ("testPath4411", testPath4411),
+                ("testBattery4411", testBattery4411),
+                ("testLosing4411", testLosing4411),
+                ("testWinning4411", testWinning4411),
+            ]
+        }
 }

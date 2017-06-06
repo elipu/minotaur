@@ -5,9 +5,7 @@ Automated Testing:
   * test: `true`
 
 Review:
-  * new tests added: `false`
+  * new tests added: `true`
   * comments: `true`
 
-One of the tests does **not** pass! Please fix your code!
-
-**Grade: 5.5**
+**Grade: 6**
